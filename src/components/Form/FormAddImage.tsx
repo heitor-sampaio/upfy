@@ -7,12 +7,6 @@ import { api } from '../../services/api';
 import { FileInput } from '../Input/FileInput';
 import { TextInput } from '../Input/TextInput';
 
-type InsertImageFormData = {
-  file: File;
-  title: string;
-  description: string;
-};
-
 interface FormAddImageProps {
   closeModal: () => void;
 }
@@ -46,10 +40,12 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
 
   const queryClient = useQueryClient();
   const mutation = useMutation(
-    async (newImage: InsertImageFormData) => {
+    async newImage => {
       const response = await api.post('api/images', newImage);
 
-      return response.data.user;
+      console.log(newImage);
+
+      return response.data;
     },
     {
       onSuccess: () => {
@@ -64,7 +60,6 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
 
   const onSubmit = async (data: Record<string, unknown>): Promise<void> => {
     try {
-      console.log(data);
       if (!imageUrl) {
         toast({
           title: 'Imagem não adicionada',
@@ -77,7 +72,13 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
         throw new Error();
       }
 
-      await mutation.mutateAsync(data);
+      const newImage = {
+        title: data.title,
+        description: data.description,
+        url: imageUrl,
+      };
+
+      await mutation.mutateAsync(newImage);
 
       toast({
         title: 'Imagem cadastrada',
