@@ -43,8 +43,6 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
     async newImage => {
       const response = await api.post('api/images', newImage);
 
-      console.log(newImage);
-
       return response.data;
     },
     {
@@ -66,7 +64,7 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
           description:
             'É preciso adicionar e aguardar o upload de uma imagem antes de realizar o cadastro.',
           status: 'error',
-          duration: 2000,
+          duration: 5000,
           isClosable: true,
         });
         throw new Error();
@@ -84,7 +82,7 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
         title: 'Imagem cadastrada',
         description: 'Sua imagem foi cadastrada com sucesso.',
         status: 'success',
-        duration: 2000,
+        duration: 5000,
         isClosable: true,
       });
     } catch {
