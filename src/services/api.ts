@@ -15,5 +15,5 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export const api = axios.create({
-  baseURL: `url`,
+  baseURL: url,
 });
