@@ -18,7 +18,7 @@
 
 You can use upfy to upload your favorites images to cloud backup, or, just to easily share with your friends!
 
-<!-- 🌐 **This application is live in [Vercel](https://vercel.com/) and you can acess it by clicking [here](#).** -->
+🌐 **This application is live in [Vercel](https://vercel.com/) and you can acess it by clicking [here](https://upfy.vercel.app/).**
 
 ## Motivation 💪
 
