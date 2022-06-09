@@ -1,11 +1,19 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import Cors from 'cors';
 import fauna from 'faunadb';
+import initMiddleware from '../../lib/init-middleware';
 
 const { query } = fauna;
 const client = new fauna.Client({
   secret: process.env.FAUNA_API_KEY,
   domain: 'db.us.fauna.com',
 });
+
+const cors = initMiddleware(
+  Cors({
+    methods: ['GET', 'POST'],
+  })
+);
 
 interface ImagesQueryResponse {
   after?: {
@@ -28,6 +36,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
+  await cors(req, res);
+
   if (req.method === 'POST') {
     const { url, title, description } = req.body;
 

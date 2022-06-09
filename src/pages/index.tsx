@@ -9,23 +9,6 @@ import { api } from '../services/api';
 import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
 
-interface ImagesQueryResponse {
-  after?: {
-    id: string;
-  };
-  data: {
-    data: {
-      title: string;
-      description: string;
-      url: string;
-    };
-    ts: number;
-    ref: {
-      id: string;
-    };
-  }[];
-}
-
 export default function Home(): JSX.Element {
   const getImages = async ({ pageParam = null }) => {
     const response = await api.get('api/images', {
