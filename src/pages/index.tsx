@@ -27,9 +27,7 @@ interface ImagesQueryResponse {
 }
 
 export default function Home(): JSX.Element {
-  const getImages = async ({
-    pageParam = null,
-  }): Promise<ImagesQueryResponse> => {
+  const getImages = async ({ pageParam = null }) => {
     const response = await api.get('api/images', {
       params: { after: pageParam },
     });

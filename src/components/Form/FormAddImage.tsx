@@ -1,5 +1,5 @@
 import { Box, Button, Stack, useToast } from '@chakra-ui/react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 
@@ -14,6 +14,8 @@ interface FormAddImageProps {
 export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
   const [imageUrl, setImageUrl] = useState('');
   const [localImageUrl, setLocalImageUrl] = useState('');
+  const [imageParams, setImageParams] = useState({});
+
   const toast = useToast();
 
   const formValidations = {
@@ -21,7 +23,7 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
       required: true,
       validate: {
         lessThen10MB: file =>
-          file[0].size <= 3000000 || 'O arquivo deve ser menor que 10MB',
+          file[0].size <= 10000000 || 'O arquivo deve ser menor que 10MB',
         acceptedFormats: file =>
           ['image./jpeg', 'image/png', 'image/gif'].includes(file[0].type) ||
           'Somente são aceitos arquivos PNG, JPEG e GIF',
@@ -40,8 +42,8 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
 
   const queryClient = useQueryClient();
   const mutation = useMutation(
-    async newImage => {
-      const response = await api.post('api/images', newImage);
+    async () => {
+      const response = await api.post('api/images', imageParams);
 
       return response.data;
     },
@@ -70,13 +72,19 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
         throw new Error();
       }
 
-      const newImage = {
+      setImageParams({
         title: data.title,
         description: data.description,
         url: imageUrl,
-      };
+      });
 
-      await mutation.mutateAsync(newImage);
+      // const newImage = {
+      //   title: data.title,
+      //   description: data.description,
+      //   url: imageUrl,
+      // };
+
+      await mutation.mutateAsync();
 
       toast({
         title: 'Imagem cadastrada',
